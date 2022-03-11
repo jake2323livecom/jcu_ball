@@ -1,0 +1,41 @@
+{% extends 'rsvp/base.html' %}
+{% load static %}
+{% block header %}Showing {{ reservations.count }} {% if reservations.count > 1 %}results{% else %}result{% endif %} for '{{ searched }}'{% endblock %}
+{% block content %}
+<br />
+<div class="card">
+    <div class="table-responsive">
+        <table class="table align-middle table-hover panel-body attr-table table-striped table-bordered">
+            <thead>
+                <tr class="table-info text-center">
+                  <th style="width: 20%" scope="col">Name</th>
+                  <th style="width: 15%" scope="col">Total Attendees</th>
+                  <th style="width: 10%" scope="col">Chicken</th>
+                  <th style="width: 10%" scope="col">Beef</th>
+                  <th style="width: 10%" scope="col">Fish</th>
+                  <th style="width: 20%" scope="col">Comments</th>
+                  <th style="width: 15%" scope="col">Actions</th>
+                </tr>
+              </thead>
+            <tbody>
+                {% for rsvp in reservations %}
+                <tr>
+                    <td>{{ rsvp.full_name }}</td>
+                    <td>{{ rsvp.total_attendees }}</td>
+                    <td>{{ rsvp.chicken }}</td>
+                    <td>{{ rsvp.beef }}</td>
+                    <td>{{ rsvp.fish }}</td>
+                    <td>{{ rsvp.comments }}</td>
+                    <td>
+                        <div class="btn-group">
+                            <a href="{% url 'reservation_edit' pk=rsvp.pk %}" class="btn btn-warning">Edit</a>
+                            <a href="{% url 'reservation_delete' pk=rsvp.pk %}" class="btn btn-danger">Delete</a>
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

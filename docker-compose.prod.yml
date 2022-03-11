@@ -1,0 +1,42 @@
+version: "3.9"
+
+services:
+  db:
+    image: rsvp_db
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=rsvp
+      - POSTGRES_USER=rsvp
+      - POSTGRES_PASSWORD=?Js0c2kld
+
+  web:
+    image: jcu_ball_web
+    command: gunicorn jcu_ball.wsgi:application --bind 0.0.0.0:8000
+    volumes:
+      - static_volume:/home/app/code/staticfiles
+    expose:
+      - 8000
+    environment:
+      - DATABASE=postgres
+      - SQL_ENGINE=django.db.backends.postgresql
+      - POSTGRES_NAME=rsvp
+      - POSTGRES_USER=rsvp
+      - POSTGRES_PASSWORD=?Js0c2kld
+    depends_on:
+      - db
+
+  nginx:
+    image: jcu_ball_nginx
+    ports:
+      - 443:443
+    depends_on:
+      - web
+    volumes:
+      - static_volume:/home/app/code/staticfiles
+      - ./certs:/etc/nginx/certs/
+
+volumes:
+  postgres_data:
+  static_volume:
+
