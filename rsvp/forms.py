@@ -9,6 +9,7 @@ class ReservationForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         for field in self.fields.keys():
+            # if field != 'has_paid':
             self.fields[field].widget.attrs.update({'class':'form-control form-rounded'})
 
     class Meta:
@@ -21,6 +22,7 @@ class ReservationForm(forms.ModelForm):
             'chicken',
             'beef',
             'fish',
+            'has_paid',
             'comments',
         )
 

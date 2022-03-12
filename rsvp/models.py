@@ -2,6 +2,10 @@ from django.db import models
 
 class Reservation(models.Model):
 
+    class HasPaid(models.TextChoices):
+        YES = 'Yes'
+        NO = 'No'
+
     first_name = models.CharField(max_length=50)
     middle_initial = models.CharField(max_length=1)
     last_name = models.CharField(max_length=50)
@@ -11,7 +15,11 @@ class Reservation(models.Model):
     beef = models.PositiveSmallIntegerField(default=0)
     fish = models.PositiveSmallIntegerField(default=0)
     comments = models.TextField(blank=True)
-
+    has_paid = models.CharField(
+        max_length=3,
+        choices=HasPaid.choices,
+        default=HasPaid.NO,
+    )
 
     csv_fields = (
         'last_name',

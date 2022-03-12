@@ -13,7 +13,7 @@ class ReservationHomeView(generic.TemplateView):
 
 class ReservationListView(generic.ListView):
     model = Reservation
-    paginate_by = 10
+    paginate_by = 30
 
 class ReservationAddView(generic.CreateView):
     model = Reservation
