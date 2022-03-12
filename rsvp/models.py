@@ -9,17 +9,18 @@ class Reservation(models.Model):
     first_name = models.CharField(max_length=50)
     middle_initial = models.CharField(max_length=1)
     last_name = models.CharField(max_length=50)
-    full_name = models.CharField(max_length=101)
+    full_name = models.CharField(max_length=101, editable=False)
     total_attendees = models.PositiveSmallIntegerField(default=0)
     chicken = models.PositiveSmallIntegerField(default=0)
     beef = models.PositiveSmallIntegerField(default=0)
     fish = models.PositiveSmallIntegerField(default=0)
-    comments = models.TextField(blank=True)
     has_paid = models.CharField(
         max_length=3,
         choices=HasPaid.choices,
         default=HasPaid.NO,
     )
+    comments = models.TextField(blank=True)
+
 
     csv_fields = (
         'last_name',
