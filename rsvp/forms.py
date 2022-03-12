@@ -1,35 +1,52 @@
 from django import forms
 from django.core.exceptions import ValidationError
+from django.utils.translation import gettext_lazy as _
 
 from .models import Reservation
 from .widgets import HorizontalRadioSelect
 
+
 class ReservationForm(forms.ModelForm):
-
-    # This is the easiest way to edit widget attributes for every field in the form at once.
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        for field in self.fields.keys():
-            if field != 'has_paid':
-                self.fields[field].widget.attrs.update({'class':'form-control form-rounded'})
-
     class Meta:
         model = Reservation
-        # The full_name field is not editable, therefore by default it will not be included in the form
-        fields = '__all__'
+        fields = "__all__"
         widgets = {
-            'has_paid': HorizontalRadioSelect(),
+            "first_name": forms.TextInput(
+                attrs={"class": "form-control form-rounded", "cols": 1}
+            ),
+            "middle_initial": forms.TextInput(
+                attrs={"class": "form-control form-rounded"}
+            ),
+            "last_name": forms.TextInput(attrs={"class": "form-control form-rounded"}),
+            "total_attendees": forms.NumberInput(
+                attrs={"class": "form-control form-rounded"}
+            ),
+            "chicken": forms.NumberInput(attrs={"class": "form-control form-rounded"}),
+            "beef": forms.NumberInput(attrs={"class": "form-control form-rounded"}),
+            "fish": forms.NumberInput(attrs={"class": "form-control form-rounded"}),
+            "has_paid": forms.Select(attrs={"class": "form-control form-rounded"}),
+            "comments": forms.Textarea(
+                attrs={"cols": 10, "rows": 2, "class": "form-control form-rounded"}
+            ),
+        }
+        labels = {
+            "has_paid": _("Has made payment"),
+            "chicken": _("Number of chicken orders:"),
+            "beef": _("Number of beef orders"),
+            "fish": _("Number of fish orders"),
+        }
+        help_texts = {
+            "comments": _("Enter any food allergies or special considerations.")
         }
 
     # Make sure the number of entrees matches the number of attendees
     def clean(self):
         cleaned_data = super().clean()
-        total_attendees = cleaned_data.get('total_attendees')
-        chicken = cleaned_data.get('chicken')
-        beef = cleaned_data.get('beef')
-        fish = cleaned_data.get('fish')
+        total_attendees = cleaned_data.get("total_attendees")
+        chicken = cleaned_data.get("chicken")
+        beef = cleaned_data.get("beef")
+        fish = cleaned_data.get("fish")
         total_entrees = sum([chicken, beef, fish])
-
 
         if total_attendees != total_entrees:
             raise ValidationError(

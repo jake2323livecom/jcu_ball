@@ -19,16 +19,23 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('base/', views.ReservationHomeView.as_view(), name='debug_base'),
-    path('', views.ReservationListView.as_view(), name='reservation_home'),
-    path('reservations/', views.ReservationListView.as_view(), name='reservation_list'),
-    path('reservations/add', views.ReservationAddView.as_view(), name='reservation_add'),
-    path('reservations/<int:pk>/edit', views.ReservationEditView.as_view(), name='reservation_edit'),
-    path('reservations/<int:pk>/delete', views.ReservationDeleteView.as_view(), name='reservation_delete'),
-    path('reservations/export/', views.export_csv, name='reservation_export'),
-    path('reservation-search/', views.reservation_search, name='reservation_search'),
+    path("admin/", admin.site.urls),
+    path("base/", views.ReservationHomeView.as_view(), name="debug_base"),
+    path("", views.ReservationListView.as_view(), name="reservation_home"),
+    path("reservations/", views.ReservationListView.as_view(), name="reservation_list"),
+    path(
+        "reservations/add", views.ReservationAddView.as_view(), name="reservation_add"
+    ),
+    path(
+        "reservations/<int:pk>/edit",
+        views.ReservationEditView.as_view(),
+        name="reservation_edit",
+    ),
+    path(
+        "reservations/<int:pk>/delete",
+        views.ReservationDeleteView.as_view(),
+        name="reservation_delete",
+    ),
+    path("reservations/export/", views.export_csv, name="reservation_export"),
+    path("reservation-search/", views.reservation_search, name="reservation_search"),
 ]
-
-
-    

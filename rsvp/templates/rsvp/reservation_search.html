@@ -1,6 +1,7 @@
 {% extends 'rsvp/base.html' %}
 {% load static %}
-{% block header %}Showing {{ reservations.count }} {% if reservations.count > 1 %}results{% else %}result{% endif %} for '{{ searched }}'{% endblock %}
+{% block header %}Showing {{ reservations.count }} {% if reservations.count > 1 %}results{% else %}result{% endif %} for
+'{{ searched }}'{% endblock %}
 {% block content %}
 <br />
 <div class="card">
@@ -8,15 +9,15 @@
         <table class="table align-middle table-hover panel-body attr-table table-striped table-bordered">
             <thead>
                 <tr class="table-info text-center">
-                  <th style="width: 20%" scope="col">Name</th>
-                  <th style="width: 15%" scope="col">Total Attendees</th>
-                  <th style="width: 10%" scope="col">Chicken</th>
-                  <th style="width: 10%" scope="col">Beef</th>
-                  <th style="width: 10%" scope="col">Fish</th>
-                  <th style="width: 20%" scope="col">Comments</th>
-                  <th style="width: 15%" scope="col">Actions</th>
+                    <th style="width: 20%" scope="col">Name</th>
+                    <th style="width: 15%" scope="col">Total Attendees</th>
+                    <th style="width: 10%" scope="col">Chicken</th>
+                    <th style="width: 10%" scope="col">Beef</th>
+                    <th style="width: 10%" scope="col">Fish</th>
+                    <th style="width: 20%" scope="col">Comments</th>
+                    <th style="width: 15%" scope="col">Actions</th>
                 </tr>
-              </thead>
+            </thead>
             <tbody>
                 {% for rsvp in reservations %}
                 <tr>

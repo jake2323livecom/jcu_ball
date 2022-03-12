@@ -11,60 +11,60 @@
     </div>
   </div>
 </div>
-<br/>
+<br />
 <div class="card">
-<div class="table-responsive">
-  <table class="table align-middle table-hover panel-body attr-table table-striped table-bordered">
-    <thead>
-      <tr class="table-info text-center">
-        <th style="width: 20%" scope="col">Name</th>
-        <th style="width: 15%" scope="col">Total Attendees</th>
-        <th style="width: 10%" scope="col">Chicken</th>
-        <th style="width: 10%" scope="col">Beef</th>
-        <th style="width: 10%" scope="col">Fish</th>
-        <th style="width: 15%" scope="col">Payment made</th>
-        <th style="width: 20%" scope="col">Comments</th>
-        <th style="width: 15%" scope="col">Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for res in page_obj %}
-      <tr class="text-center">
-        <td>{{ res.full_name }}</td>
-        <td>{{ res.total_attendees }}</td>
-        <td>{{ res.chicken }}</td>
-        <td>{{ res.beef }}</td>
-        <td>{{ res.fish }}</td>
-        <td>{{ res.has_paid }}</td>
-        <td>{{ res.comments }}</td>
-        <td>
-          <div class="btn-group">
-            <a href="{% url 'reservation_edit' pk=res.pk %}" class="btn btn-warning">Edit</a>
-            <a href="{% url 'reservation_delete' pk=res.pk %}" class="btn btn-danger">Delete</a>
-          </div>
-        </td>
-      </tr>
-      {% endfor %}
-    </tbody>
-  </table>
-</div>
-<div class="pagination">
-  <span class="step-links">
+  <div class="table-responsive">
+    <table class="table align-middle table-hover panel-body attr-table table-striped table-bordered">
+      <thead>
+        <tr class="table-info text-center">
+          <th style="width: 20%" scope="col">Name</th>
+          <th style="width: 15%" scope="col">Total Attendees</th>
+          <th style="width: 10%" scope="col">Chicken</th>
+          <th style="width: 10%" scope="col">Beef</th>
+          <th style="width: 10%" scope="col">Fish</th>
+          <th style="width: 15%" scope="col">Payment made</th>
+          <th style="width: 20%" scope="col">Comments</th>
+          <th style="width: 15%" scope="col">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for res in page_obj %}
+        <tr class="text-center">
+          <td>{{ res.full_name }}</td>
+          <td>{{ res.total_attendees }}</td>
+          <td>{{ res.chicken }}</td>
+          <td>{{ res.beef }}</td>
+          <td>{{ res.fish }}</td>
+          <td>{{ res.has_paid }}</td>
+          <td>{{ res.comments }}</td>
+          <td>
+            <div class="btn-group">
+              <a href="{% url 'reservation_edit' pk=res.pk %}" class="btn btn-warning">Edit</a>
+              <a href="{% url 'reservation_delete' pk=res.pk %}" class="btn btn-danger">Delete</a>
+            </div>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  <div class="pagination">
+    <span class="step-links">
       {% if page_obj.has_previous %}
-          <a class="btn btn-info btn-sm" href="?page=1">&laquo; first</a>
-          <a class="btn btn-success btn-sm" href="?page={{ page_obj.previous_page_number }}">previous</a>
+      <a class="btn btn-info btn-sm" href="?page=1">&laquo; first</a>
+      <a class="btn btn-success btn-sm" href="?page={{ page_obj.previous_page_number }}">previous</a>
       {% endif %}
 
       <span class="current">
-          Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+        Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
       </span>
 
       {% if page_obj.has_next %}
-          <a class="btn btn-info btn-sm" href="?page={{ page_obj.next_page_number }}">next</a>
-          <a class="btn btn-success btn-sm" href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+      <a class="btn btn-info btn-sm" href="?page={{ page_obj.next_page_number }}">next</a>
+      <a class="btn btn-success btn-sm" href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
       {% endif %}
-  </span>
-</div>
+    </span>
+  </div>
 </div>
 
 
