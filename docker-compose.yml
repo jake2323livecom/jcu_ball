@@ -3,39 +3,52 @@ version: "3.9"
 services:
   db:
     image: postgres
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
+    container_name: jcu_ball_postgres
     environment:
       - POSTGRES_DB=rsvp
       - POSTGRES_USER=rsvp
       - POSTGRES_PASSWORD=?Js0c2kld
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U rsvp"]
+      interval: 2s
+      timeout: 2s
+      retries: 5
 
   web:
     build: .
-    command: gunicorn jcu_ball.wsgi:application --bind 0.0.0.0:8000
-    volumes:
-      - .:/home/app/code/
-      - static_volume:/home/app/code/staticfiles
-    expose:
-      - 8000
+    container_name: jcu_ball_web
     environment:
       - DATABASE=postgres
       - SQL_ENGINE=django.db.backends.postgresql
       - POSTGRES_NAME=rsvp
       - POSTGRES_USER=rsvp
       - POSTGRES_PASSWORD=?Js0c2kld
+    command: >
+      sh -c "python manage.py makemigrations &&
+             python manage.py migrate &&
+             python manage.py collectstatic &&
+             gunicorn jcu_ball.wsgi:application --bind 0.0.0.0:8000"
+    expose:
+      - 8000
+    volumes:
+      - .:/home/app/code/
+      - static_volume:/home/app/code/staticfiles
     depends_on:
-      - db
+      db:
+        condition: service_healthy
 
   nginx:
     build: ./nginx
+    container_name: jcu_ball_nginx
     ports:
       - 443:443
-    depends_on:
-      - web
     volumes:
       - static_volume:/home/app/code/staticfiles
       - ./certs:/etc/nginx/certs/
+    depends_on:
+      - web
 
 volumes:
   postgres_data:
