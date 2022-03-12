@@ -3,7 +3,6 @@ from django.core.exceptions import ValidationError
 from django.utils.translation import gettext_lazy as _
 
 from .models import Reservation
-from .widgets import HorizontalRadioSelect
 
 
 class ReservationForm(forms.ModelForm):
