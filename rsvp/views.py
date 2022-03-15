@@ -11,6 +11,9 @@ from .models import Reservation
 from .forms import ReservationForm, CreateUserForm
 from .utils import download_csv
 
+def testing(request):
+    return render(request, 'rsvp/testing.html', {})
+
 
 class ReservationHomeView(generic.TemplateView):
     template_name = "rsvp/base.html"
@@ -61,33 +64,41 @@ def export_csv(request):
 
 
 def register_page(request):
-    form = CreateUserForm()
+    if request.user.is_authenticated:
+        return redirect('reservation_list')
+    else:
+        form = CreateUserForm()
 
-    if request.method == 'POST':
-        form = CreateUserForm(request.POST)
-        if form.is_valid():
-            print('new user is being saved')
-            form.save()
-            messages.success(request, f"Account was created for {request.POST.get('username')}")
-            return redirect('login')
+        if request.method == 'POST':
+            form = CreateUserForm(request.POST)
+            if form.is_valid():
+                print('new user is being saved')
+                form.save()
+                messages.success(request, f"Account was created for {request.POST.get('username')}")
+                return redirect('login')
 
-    context = {'form': form}
-    return render(request, 'rsvp/register.html', context)
+        context = {'form': form}
+        return render(request, 'rsvp/register.html', context)
 
-def user_login(request):
-    if request.method == 'POST':
-        username = request.POST.get('username')
-        password = request.POST.get('password')
-        user = authenticate(request, username=username, password=password)
+def login_page(request):
+    if request.user.is_authenticated:
+        return redirect('reservation_list')
+    else:
+        if request.method == 'POST':
+            username = request.POST.get('username')
+            password = request.POST.get('password')
+            user = authenticate(request, username=username, password=password)
 
-        if user is not None:
-            login(request, user)
-            return render(request, 'rsvp/reservation_list.html', {'user':user})
-        else:
-            messages.info('Username or password is incorrect...')
+            if user is not None:
+                login(request, user)
+                return render(request, 'rsvp/reservation_list.html', {'user':user})
+            else:
+                messages.info('Username or password is incorrect...')
 
-    context = {}
-    return render(request, 'rsvp/login.html', context)
+        context = {}
+        return render(request, 'rsvp/login.html', context)
 
-def user_logout(request):
-    pass
+
+def logout_user(request):
+    logout(request)
+    return redirect('login')

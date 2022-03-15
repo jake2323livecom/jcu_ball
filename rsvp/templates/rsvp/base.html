@@ -31,22 +31,21 @@
                     <a class="nav-link" href="{% url 'reservation_add' %}"><span class="mb-0 h1">Create a
                             Reservation</span></a>
                 </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown">
-                        {{ user.username }}
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
-                        <a class="dropdown-item" href="#">My Account</a>
-                    </div>
-                </li>
             </ul>
-            <form class="d-flex" method=POST action="{% url 'reservation_search' %}">
-                {% csrf_token %}
-                <input class="form-control me-2" type="search" placeholder="Search by name" aria-label="Search"
-                    name="searched">
-                <button class="btn btn-success" type="submit">Search</button>
-            </form>
+            <ul>
+                <form class="d-flex" method=POST action="{% url 'reservation_search' %}">
+                    {% csrf_token %}
+                    <input class="form-control me-2" type="search" placeholder="Search by name" aria-label="Search"
+                        name="searched">
+                    <button class="btn btn-success" type="submit">Search</button>
+                </form>
+                {% if user.is_authenticated %}
+                <div class="nav-item">
+                    <label for="logout"><span class="mb-0 h5 text-light">Logged in as: {{ user.username }}</span></label>
+                    <a id="logout" class="badge badge-info" href="{% url 'logout' %}"><span class="mb-0 h5">Logout</span></a>
+                </div>
+                {% endif %}
+            </ul>
         </div>
     </nav>
     <br />

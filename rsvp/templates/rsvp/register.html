@@ -15,18 +15,10 @@
 					<form method="POST" action="">
                         {% csrf_token %}
 
-						<div class="form-group">
-							<input type="username" class="form-control" id="id_username" name="username">
-						</div>
-						<div class="form-group">
-							<input type="email" class="form-control" id="id_email" name="email">
-						</div>
-						<div class="form-group">
-							<input type="password" class="form-control" id="id_password1" name="password1">
-						</div>
-						<div class="form-group">
-							<input type="password" class="form-control" id="id_password2" name="password2">
-						</div>
+						{{ form.username }}
+						{{ form.email }}
+						{{ form.password1 }}
+						{{ form.password2 }}
 				   		<div class="d-flex justify-content-center mt-3 login_container">
 				 			<input class="btn login_btn" type="submit" value="Register Account">
 				   		</div>
