@@ -1,7 +1,8 @@
 from django import forms
 from django.core.exceptions import ValidationError
 from django.utils.translation import gettext_lazy as _
-
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.models import User
 from .models import Reservation
 
 
@@ -51,3 +52,13 @@ class ReservationForm(forms.ModelForm):
             raise ValidationError(
                 "The total number of entrees does not match the total number of attendees"
             )
+
+class CreateUserForm(UserCreationForm):
+    class Meta:
+        model = User
+        fields = [
+            'username',
+            'email',
+            'password1',
+            'password2',
+        ]

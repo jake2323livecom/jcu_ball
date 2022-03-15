@@ -20,6 +20,9 @@ from . import views
 
 urlpatterns = [
     path("admin/", admin.site.urls),
+    path('register/', views.register_page, name='register'),
+    path('login/', views.user_login, name='login'),
+    path('logout/', views.user_logout, name='logout'),
     path("base/", views.ReservationHomeView.as_view(), name="debug_base"),
     path("", views.ReservationListView.as_view(), name="reservation_home"),
     path("reservations/", views.ReservationListView.as_view(), name="reservation_list"),

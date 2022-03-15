@@ -32,6 +32,11 @@
                             Reservation</span></a>
                 </li>
             </ul>
+            {% if user.is_authenticated %}
+            <div>
+            <h1 class="text-light">Hello {{ user.username }}!</h1>
+            </div>
+            {% endif %}
             <form class="d-flex" method=POST action="{% url 'reservation_search' %}">
                 {% csrf_token %}
                 <input class="form-control me-2" type="search" placeholder="Search by name" aria-label="Search"
