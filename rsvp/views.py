@@ -3,8 +3,8 @@ from django.views import generic
 from django.urls import reverse_lazy
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 
 from .forms import ReservationForm
 from .models import Reservation
@@ -14,32 +14,26 @@ from .utils import download_csv
 def testing(request):
     return render(request, 'rsvp/testing.html', {})
 
-
 class ReservationHomeView(generic.TemplateView):
     template_name = "rsvp/base.html"
-
 
 class ReservationListView(generic.ListView):
     model = Reservation
     paginate_by = 25
-
 
 class ReservationAddView(generic.CreateView):
     model = Reservation
     form_class = ReservationForm
     success_url = reverse_lazy("reservation_list")
 
-
 class ReservationEditView(generic.UpdateView):
     model = Reservation
     form_class = ReservationForm
     success_url = reverse_lazy("reservation_list")
 
-
 class ReservationDeleteView(generic.DeleteView):
     model = Reservation
     success_url = reverse_lazy("reservation_list")
-
 
 def reservation_search(request):
     if request.method == "POST":
@@ -55,7 +49,6 @@ def reservation_search(request):
             return redirect("reservation_list")
     else:
         return redirect("reservation_list")
-
 
 def export_csv(request):
     data = download_csv(request, Reservation.objects.all())
@@ -94,11 +87,12 @@ def login_page(request):
                 return render(request, 'rsvp/reservation_list.html', {'user':user})
             else:
                 messages.info('Username or password is incorrect...')
+        
 
         context = {}
         return render(request, 'rsvp/login.html', context)
 
-
+@login_required(login_url='login')
 def logout_user(request):
     logout(request)
     return redirect('login')
