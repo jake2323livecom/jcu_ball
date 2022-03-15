@@ -87,7 +87,7 @@ def user_login(request):
             messages.info('Username or password is incorrect...')
 
     context = {}
-    return render(request, 'tsvp/login.html', context)
+    return render(request, 'rsvp/login.html', context)
 
 def user_logout(request):
     pass
