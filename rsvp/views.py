@@ -5,6 +5,8 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
+
 
 from .forms import ReservationForm
 from .models import Reservation
@@ -14,27 +16,33 @@ from .utils import download_csv
 def testing(request):
     return render(request, 'rsvp/testing.html', {})
 
-class ReservationHomeView(generic.TemplateView):
+class ReservationHomeView(LoginRequiredMixin, generic.TemplateView):
     template_name = "rsvp/base.html"
+    login_url = '/login/'
 
-class ReservationListView(generic.ListView):
+class ReservationListView(LoginRequiredMixin, generic.ListView):
     model = Reservation
     paginate_by = 25
+    login_url = '/login/'
 
-class ReservationAddView(generic.CreateView):
+class ReservationAddView(LoginRequiredMixin, generic.CreateView):
     model = Reservation
     form_class = ReservationForm
     success_url = reverse_lazy("reservation_list")
+    login_url = '/login/'
 
-class ReservationEditView(generic.UpdateView):
+class ReservationEditView(LoginRequiredMixin, generic.UpdateView):
     model = Reservation
     form_class = ReservationForm
     success_url = reverse_lazy("reservation_list")
+    login_url = '/login/'
 
-class ReservationDeleteView(generic.DeleteView):
+class ReservationDeleteView(LoginRequiredMixin, generic.DeleteView):
     model = Reservation
     success_url = reverse_lazy("reservation_list")
+    login_url = '/login/'
 
+@login_required(login_url='login')
 def reservation_search(request):
     if request.method == "POST":
         searched = str(request.POST.get("searched"))
@@ -50,6 +58,7 @@ def reservation_search(request):
     else:
         return redirect("reservation_list")
 
+@login_required(login_url='login')
 def export_csv(request):
     data = download_csv(request, Reservation.objects.all())
     response = HttpResponse(data, content_type="text/csv")
