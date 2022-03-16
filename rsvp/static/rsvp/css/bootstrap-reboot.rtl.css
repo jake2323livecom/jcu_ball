@@ -65,41 +65,14 @@
   box-sizing: border-box;
 }
 
-<<<<<<< HEAD
-html {
-  font-family: sans-serif;
-  line-height: 1.15;
-  -webkit-text-size-adjust: 100%;
-  -ms-text-size-adjust: 100%;
-  -ms-overflow-style: scrollbar;
-  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-}
-
-@-ms-viewport {
-  width: device-width;
-}
-
-article, aside, figcaption, figure, footer, header, hgroup, main, nav, section {
-  display: block;
-=======
 @media (prefers-reduced-motion: no-preference) {
   :root {
     scroll-behavior: smooth;
   }
->>>>>>> main
 }
 
 body {
   margin: 0;
-<<<<<<< HEAD
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-  font-size: 1rem;
-  font-weight: 400;
-  line-height: 1.5;
-  color: #212529;
-  text-align: left;
-  background-color: #fff;
-=======
   font-family: var(--bs-body-font-family);
   font-size: var(--bs-body-font-size);
   font-weight: var(--bs-body-font-weight);
@@ -109,7 +82,6 @@ body {
   background-color: var(--bs-body-bg);
   -webkit-text-size-adjust: 100%;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
->>>>>>> main
 }
 
 hr {
@@ -185,12 +157,8 @@ abbr[data-bs-original-title] {
   -webkit-text-decoration: underline dotted;
   text-decoration: underline dotted;
   cursor: help;
-<<<<<<< HEAD
-  border-bottom: 0;
-=======
   -webkit-text-decoration-skip-ink: none;
   text-decoration-skip-ink: none;
->>>>>>> main
 }
 
 address {
@@ -201,7 +169,7 @@ address {
 
 ol,
 ul {
-  padding-left: 2rem;
+  padding-right: 2rem;
 }
 
 ol,
@@ -224,15 +192,11 @@ dt {
 
 dd {
   margin-bottom: 0.5rem;
-  margin-left: 0;
+  margin-right: 0;
 }
 
 blockquote {
   margin: 0 0 1rem;
-}
-
-dfn {
-  font-style: italic;
 }
 
 b,
@@ -266,18 +230,7 @@ sup {
 }
 
 a {
-<<<<<<< HEAD
-  color: #007bff;
-  text-decoration: none;
-  background-color: transparent;
-  -webkit-text-decoration-skip: objects;
-}
-
-a:hover {
-  color: #0056b3;
-=======
   color: #0d6efd;
->>>>>>> main
   text-decoration: underline;
 }
 a:hover {
@@ -295,7 +248,7 @@ kbd,
 samp {
   font-family: var(--bs-font-monospace);
   font-size: 1em;
-  direction: ltr /* rtl:ignore */;
+  direction: ltr ;
   unicode-bidi: bidi-override;
 }
 
@@ -304,16 +257,12 @@ pre {
   margin-top: 0;
   margin-bottom: 1rem;
   overflow: auto;
-<<<<<<< HEAD
-  -ms-overflow-style: scrollbar;
-=======
   font-size: 0.875em;
 }
 pre code {
   font-size: inherit;
   color: inherit;
   word-break: normal;
->>>>>>> main
 }
 
 code {
@@ -356,7 +305,7 @@ caption {
   padding-top: 0.5rem;
   padding-bottom: 0.5rem;
   color: #6c757d;
-  text-align: left;
+  text-align: right;
 }
 
 th {
@@ -403,19 +352,6 @@ select {
   text-transform: none;
 }
 
-<<<<<<< HEAD
-button,
-html [type="button"],
-[type="reset"],
-[type="submit"] {
-  -webkit-appearance: button;
-}
-
-button::-moz-focus-inner,
-[type="button"]::-moz-focus-inner,
-[type="reset"]::-moz-focus-inner,
-[type="submit"]::-moz-focus-inner {
-=======
 [role=button] {
   cursor: pointer;
 }
@@ -445,7 +381,6 @@ button:not(:disabled),
 }
 
 ::-moz-focus-inner {
->>>>>>> main
   padding: 0;
   border-style: none;
 }
@@ -462,7 +397,7 @@ fieldset {
 }
 
 legend {
-  float: left;
+  float: right;
   width: 100%;
   padding: 0;
   margin-bottom: 0.5rem;
@@ -475,7 +410,7 @@ legend {
   }
 }
 legend + * {
-  clear: left;
+  clear: right;
 }
 
 ::-webkit-datetime-edit-fields-wrapper,
@@ -497,20 +432,13 @@ legend + * {
   -webkit-appearance: textfield;
 }
 
-<<<<<<< HEAD
-[type="search"]::-webkit-search-cancel-button,
-[type="search"]::-webkit-search-decoration {
-=======
-/* rtl:raw:
 [type="tel"],
 [type="url"],
 [type="email"],
 [type="number"] {
   direction: ltr;
 }
-*/
 ::-webkit-search-decoration {
->>>>>>> main
   -webkit-appearance: none;
 }
 
@@ -551,5 +479,4 @@ progress {
 [hidden] {
   display: none !important;
 }
-
-/*# sourceMappingURL=bootstrap-reboot.css.map */
+/*# sourceMappingURL=bootstrap-reboot.rtl.css.map */
