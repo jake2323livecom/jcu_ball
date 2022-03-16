@@ -95,7 +95,7 @@ def login_page(request):
                 login(request, user)
                 return render(request, 'rsvp/reservation_list.html', {'user':user})
             else:
-                messages.info('Username or password is incorrect...')
+                messages.info(request, 'Username or password is incorrect...')
         
 
         context = {}
