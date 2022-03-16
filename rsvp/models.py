@@ -21,7 +21,7 @@ class Reservation(models.Model):
         default=HasPaid.NO,
     )
     comments = models.TextField(blank=True)
-    created_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name="reservation", null=True, editable=False)
+    created_by = models.OneToOneField(User, on_delete=models.CASCADE, null=True, editable=False)
 
     csv_fields = (
         "last_name",
