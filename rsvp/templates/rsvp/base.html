@@ -28,15 +28,21 @@
                 <li class="nav-item">
                     <a class="nav-link" href="#"><span class="mb-0 h3">Create a reservation</span></a>
                 </li>
+                {% if user.is_authenticated %}
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
                         data-bs-toggle="dropdown" aria-expanded="false">
-                        <span class="mb-0 h3">Hello USER!</span>
+                        <span class="mb-0 h3">Hello {{ user }}!</span>
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="#"><span class="mb-0 h5">Logout</span></a></li>
+                        <li><a class="dropdown-item" href="{% url 'logout' %}"><span class="mb-0 h5">Logout</span></a></li>
                     </ul>
                 </li>
+                {% else %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'login' %}"><span class="mb-0 h3">Login</span></a>
+                </li>
+                {% endif %}
             </ul>
             <form class="d-flex" method=POST action="{% url 'reservation_search' %}">
                 {% csrf_token %}

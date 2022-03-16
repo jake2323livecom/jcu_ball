@@ -20,6 +20,13 @@ class Reservation(models.Model):
         default=HasPaid.NO,
     )
     comments = models.TextField(blank=True)
+    created_by = models.ForeignKey(
+        to='auth.User',
+        on_delete=models.SET_NULL,
+        blank=True,
+        null=True,
+        editable=False
+    )
 
     csv_fields = (
         "last_name",
