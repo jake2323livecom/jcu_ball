@@ -54,6 +54,14 @@ class ReservationForm(forms.ModelForm):
             )
 
 class CreateUserForm(UserCreationForm):
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['username'].widget.attrs.update({'class':'form-control mb-2','placeholder':'Username...'})
+        self.fields['email'].widget.attrs.update({'class':'form-control mb-2','placeholder':'Email...'})
+        self.fields['password1'].widget.attrs.update({'class':'form-control mb-2','placeholder':'Enter password...'})
+        self.fields['password2'].widget.attrs.update({'class':'form-control mb-2','placeholder':'Re-enter password...'})
+
     class Meta:
         model = User
         fields = [
