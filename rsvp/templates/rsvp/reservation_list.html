@@ -38,7 +38,7 @@
           <td>{{ res.fish }}</td>
           <td>{{ res.has_paid }}</td>
           <td>{{ res.comments }}</td>
-          {% if request.user == res.created_by %}
+          {% if perms.rsvp.change_reservation or request.user == res.created_by %}
           <td>
             <div class="btn-group">
               <a href="{% url 'reservation_edit' pk=res.pk %}" class="btn btn-warning">Edit</a>
