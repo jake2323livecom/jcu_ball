@@ -2,20 +2,81 @@ from django.http import HttpResponse
 from django.views import generic
 from django.urls import reverse_lazy
 from django.shortcuts import render, redirect
+
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.views import (
+    PasswordChangeView,
+    PasswordChangeDoneView,
+    PasswordResetView,
+    PasswordResetDoneView,
+    PasswordResetConfirmView,
+    PasswordResetCompleteView,
+)
 
 
-from .forms import ReservationForm
+from .forms import ReservationForm, LoginForm
 from .models import Reservation
-from .forms import ReservationForm, CreateUserForm
+from .forms import ReservationForm, CreateUserForm, ChangePasswordForm
 from .utils import download_csv
 
 
-def testing(request):
-    return render(request, "rsvp/testing.html", {})
+def register_page(request):
+    if request.user.is_authenticated:
+        return redirect("reservation_list")
+    else:
+        form = CreateUserForm()
+
+        if request.method == "POST":
+            form = CreateUserForm(request.POST)
+            if form.is_valid():
+                print("new user is being saved")
+                form.save()
+                messages.success(
+                    request, f"Account was created for {request.POST.get('username')}"
+                )
+                return redirect("login")
+
+        context = {"form": form}
+        return render(request, "rsvp/register.html", context)
+
+
+def login_page(request):
+    if request.user.is_authenticated:
+        return redirect("reservation_list")
+    else:
+
+        if request.method == "POST":
+            username = request.POST.get("username")
+            password = request.POST.get("password")
+            user = authenticate(request, username=username, password=password)
+
+            if user is not None:
+                login(request, user)
+                return redirect("reservation_list")
+            else:
+                messages.info(request, "Username or password is incorrect...")
+
+        form = LoginForm()
+        context = {"form": form}
+        return render(request, "rsvp/login.html", context)
+
+
+@login_required(login_url="login")
+def logout_user(request):
+    logout(request)
+    return redirect("login")
+
+
+class PasswordChange(PasswordChangeView):
+    template_name = "rsvp/password_change_form.html"
+    form_class = ChangePasswordForm
+
+
+class PasswordChangeDone(PasswordChangeDoneView):
+    template_name = "rsvp/password_change_done.html"
 
 
 class ReservationHomeView(LoginRequiredMixin, generic.TemplateView):
@@ -38,6 +99,7 @@ class ReservationAddView(LoginRequiredMixin, generic.CreateView):
     def form_valid(self, form):
         form.instance.created_by = self.request.user
         return super().form_valid(form)
+
 
 class ReservationEditView(LoginRequiredMixin, generic.UpdateView):
     model = Reservation
@@ -74,48 +136,3 @@ def export_csv(request):
     data = download_csv(request, Reservation.objects.all())
     response = HttpResponse(data, content_type="text/csv")
     return response
-
-
-def register_page(request):
-    if request.user.is_authenticated:
-        return redirect("reservation_list")
-    else:
-        form = CreateUserForm()
-
-        if request.method == "POST":
-            form = CreateUserForm(request.POST)
-            if form.is_valid():
-                print("new user is being saved")
-                form.save()
-                messages.success(
-                    request, f"Account was created for {request.POST.get('username')}"
-                )
-                return redirect("login")
-
-        context = {"form": form}
-        return render(request, "rsvp/register.html", context)
-
-
-def login_page(request):
-    if request.user.is_authenticated:
-        return redirect("reservation_list")
-    else:
-        if request.method == "POST":
-            username = request.POST.get("username")
-            password = request.POST.get("password")
-            user = authenticate(request, username=username, password=password)
-
-            if user is not None:
-                login(request, user)
-                return redirect('reservation_list')
-            else:
-                messages.info(request, "Username or password is incorrect...")
-
-        context = {}
-        return render(request, "rsvp/login.html", context)
-
-
-@login_required(login_url="login")
-def logout_user(request):
-    logout(request)
-    return redirect("login")
