@@ -23,10 +23,10 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="#"><span class="mb-0 h3">Home</span></a>
+                    <a class="nav-link active" aria-current="page" href="{% url 'reservation_list' %}"><span class="mb-0 h3">Home</span></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#"><span class="mb-0 h3">Create a reservation</span></a>
+                    <a class="nav-link" href="{% url 'reservation_add' %}"><span class="mb-0 h3">Create a reservation</span></a>
                 </li>
                 {% if user.is_authenticated %}
                 <li class="nav-item dropdown">
@@ -37,10 +37,6 @@
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                         <li><a class="dropdown-item" href="{% url 'logout' %}"><span class="mb-0 h5">Logout</span></a></li>
                     </ul>
-                </li>
-                {% else %}
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'login' %}"><span class="mb-0 h3">Login</span></a>
                 </li>
                 {% endif %}
             </ul>

@@ -13,36 +13,46 @@ from .models import Reservation
 from .forms import ReservationForm, CreateUserForm
 from .utils import download_csv
 
+
 def testing(request):
-    return render(request, 'rsvp/testing.html', {})
+    return render(request, "rsvp/testing.html", {})
+
 
 class ReservationHomeView(LoginRequiredMixin, generic.TemplateView):
     template_name = "rsvp/base.html"
-    login_url = '/login/'
+    login_url = "/login/"
+
 
 class ReservationListView(LoginRequiredMixin, generic.ListView):
     model = Reservation
     paginate_by = 25
-    login_url = '/login/'
+    login_url = "/login/"
+
 
 class ReservationAddView(LoginRequiredMixin, generic.CreateView):
     model = Reservation
     form_class = ReservationForm
     success_url = reverse_lazy("reservation_list")
-    login_url = '/login/'
+    login_url = "/login/"
+
+    def form_valid(self, form):
+        form.instance.created_by = self.request.user
+        return super().form_valid(form)
 
 class ReservationEditView(LoginRequiredMixin, generic.UpdateView):
     model = Reservation
     form_class = ReservationForm
     success_url = reverse_lazy("reservation_list")
-    login_url = '/login/'
+    login_url = "/login/"
+
 
 class ReservationDeleteView(LoginRequiredMixin, generic.DeleteView):
     model = Reservation
     success_url = reverse_lazy("reservation_list")
-    login_url = '/login/'
+    login_url = "/login/"
 
-@login_required(login_url='login')
+
+@login_required(login_url="login")
 def reservation_search(request):
     if request.method == "POST":
         searched = str(request.POST.get("searched"))
@@ -58,7 +68,8 @@ def reservation_search(request):
     else:
         return redirect("reservation_list")
 
-@login_required(login_url='login')
+
+@login_required(login_url="login")
 def export_csv(request):
     data = download_csv(request, Reservation.objects.all())
     response = HttpResponse(data, content_type="text/csv")
@@ -67,41 +78,44 @@ def export_csv(request):
 
 def register_page(request):
     if request.user.is_authenticated:
-        return redirect('reservation_list')
+        return redirect("reservation_list")
     else:
         form = CreateUserForm()
 
-        if request.method == 'POST':
+        if request.method == "POST":
             form = CreateUserForm(request.POST)
             if form.is_valid():
-                print('new user is being saved')
+                print("new user is being saved")
                 form.save()
-                messages.success(request, f"Account was created for {request.POST.get('username')}")
-                return redirect('login')
+                messages.success(
+                    request, f"Account was created for {request.POST.get('username')}"
+                )
+                return redirect("login")
 
-        context = {'form': form}
-        return render(request, 'rsvp/register.html', context)
+        context = {"form": form}
+        return render(request, "rsvp/register.html", context)
+
 
 def login_page(request):
     if request.user.is_authenticated:
-        return redirect('reservation_list')
+        return redirect("reservation_list")
     else:
-        if request.method == 'POST':
-            username = request.POST.get('username')
-            password = request.POST.get('password')
+        if request.method == "POST":
+            username = request.POST.get("username")
+            password = request.POST.get("password")
             user = authenticate(request, username=username, password=password)
 
             if user is not None:
                 login(request, user)
-                return render(request, 'rsvp/reservation_list.html', {'user':user})
+                return render(request, "rsvp/reservation_list.html", {"user": user})
             else:
-                messages.info(request, 'Username or password is incorrect...')
-        
+                messages.info(request, "Username or password is incorrect...")
 
         context = {}
-        return render(request, 'rsvp/login.html', context)
+        return render(request, "rsvp/login.html", context)
 
-@login_required(login_url='login')
+
+@login_required(login_url="login")
 def logout_user(request):
     logout(request)
-    return redirect('login')
+    return redirect("login")
