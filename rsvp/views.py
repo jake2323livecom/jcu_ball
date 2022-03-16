@@ -107,7 +107,7 @@ def login_page(request):
 
             if user is not None:
                 login(request, user)
-                return render(request, "rsvp/reservation_list.html", {"user": user})
+                return redirect('reservation_list')
             else:
                 messages.info(request, "Username or password is incorrect...")
 
